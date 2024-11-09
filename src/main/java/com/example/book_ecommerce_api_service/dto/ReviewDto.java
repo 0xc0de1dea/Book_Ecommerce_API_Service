@@ -1,10 +1,7 @@
 package com.example.book_ecommerce_api_service.dto;
 
 import com.example.book_ecommerce_api_service.domain.Review;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,12 +19,13 @@ public class ReviewDto {
     public static class Request {
         @Min(value = 1)
         @Max(value = 5)
+        @NotNull
         private Integer rating;
 
         @NotEmpty
         private String comment;
 
-        @NotBlank
+        @NotNull
         private Long book_id;
     }
 
@@ -41,10 +39,10 @@ public class ReviewDto {
         private Integer like;
 
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-        private LocalDateTime registerDttm;
+        private LocalDateTime registerDateTime;
 
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-        private LocalDateTime updateDttm;
+        private LocalDateTime updateDateTime;
     }
 
     public static Page<ReviewDto.Response> fromPageReviewEntity(Page<Review> pageReview) {

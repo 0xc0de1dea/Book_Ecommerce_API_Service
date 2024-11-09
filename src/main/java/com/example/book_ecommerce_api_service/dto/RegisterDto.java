@@ -2,10 +2,7 @@ package com.example.book_ecommerce_api_service.dto;
 
 import com.example.book_ecommerce_api_service.domain.User;
 import com.example.book_ecommerce_api_service.type.UserType;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,7 +43,7 @@ public class RegisterDto {
         @Max(12)
         private String phone;
 
-        @NotBlank
+        @NotNull
         private UserType type;
 
         public User toUserEntity(){
@@ -68,6 +65,6 @@ public class RegisterDto {
         private String email;
 
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-        private LocalDateTime registerDttm;
+        private LocalDateTime registerDateTime;
     }
 }

@@ -32,6 +32,11 @@ dependencies {
     implementation 'org.springframework.security:spring-security-crypto:5.7.1'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 
 //    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 

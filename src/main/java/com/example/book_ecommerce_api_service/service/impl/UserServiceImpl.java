@@ -13,11 +13,11 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -28,53 +28,59 @@ public class UserServiceImpl implements UserService {
 
     @Async
     @Transactional
-    public void registerUser(RegisterDto.Request request){
-        boolean isExists = userRepository.existsByEmail(request.getEmail());
+    public CompletableFuture<Void> registerUser(RegisterDto.Request request){
+        try {
+            boolean isExists = userRepository.existsByEmail(request.getEmail());
 
-        if (isExists){
-            throw new CustomException(ErrorCode.ALREADY_EXISTS_EMAIL);
-        }
+            if (isExists){
+                throw new CustomException(ErrorCode.ALREADY_EXISTS_EMAIL);
+            }
 
-        if (!Objects.equals(request.getPassword(), request.getConfirmPassword())){
-            throw new CustomException(ErrorCode.UN_MATCH_CONFIRM_PASSWORD);
-        }
+            if (!Objects.equals(request.getPassword(), request.getConfirmPassword())){
+                throw new CustomException(ErrorCode.UN_MATCH_CONFIRM_PASSWORD);
+            }
 
-        if (!request.getPassword().matches(".*[a-z].*") ||
-                !request.getPassword().matches(".*[0-9].*") ||
-                !request.getPassword().matches(".*[!@#$%^&*()-_=+\\[\\]{};:'\",<.>/?].*")) {
-            throw new CustomException(ErrorCode.NOT_VALID_PATTERN);
-        }
+            if (!request.getPassword().matches(".*[a-zA-Z].*") ||
+                    !request.getPassword().matches(".*[0-9].*") ||
+                    !request.getPassword().matches(".*[!@#$%^&*(),.?\":{}|<>].*")) {
+                throw new CustomException(ErrorCode.NOT_VALID_PATTERN);
+            }
 
-        String uuid = UUID.randomUUID().toString();
+            String uuid = UUID.randomUUID().toString();
 
-        User newUser = User.builder()
-                .name(request.getName())
-                .email(request.getEmail())
-                .password(BCrypt.hashpw(request.getPassword(), BCrypt.gensalt()))
-                .address(request.getAddress())
-                .phone(request.getPhone())
-                .type(request.getType())
-                .certification(false)
-                .build();
+            User newUser = User.builder()
+                    .name(request.getName())
+                    .email(request.getEmail())
+                    .password(BCrypt.hashpw(request.getPassword(), BCrypt.gensalt()))
+                    .address(request.getAddress())
+                    .phone(request.getPhone())
+                    .type(request.getType())
+                    .certification(false)
+                    .build();
 
-        userRepository.save(newUser);
+            userRepository.save(newUser);
 
-        String email = request.getEmail();
-        String subject = "회원가입을 축하합니다.";
-        String text = "";
-        text += "<h3>" + "인증 확인 코드입니다." + "</h3>";
-        text += "<h1>" + uuid + "</h1>";
-        text += "<h3>" + "감사합니다." + "</h3>";
+            String email = request.getEmail();
+            String subject = "회원가입을 축하합니다.";
+            String text = "";
+            text += "<h3>" + "인증 확인 코드입니다." + "</h3>";
+            text += "<h1>" + uuid + "</h1>";
+            text += "<h3>" + "감사합니다." + "</h3>";
 
-        mailComponents.sendMail(email, subject, text);
+            mailComponents.sendMail(email, subject, text);
 
-        emailVerificationMap.put(request.getEmail(), uuid);
+            emailVerificationMap.put(request.getEmail(), uuid);
 
+            return CompletableFuture.completedFuture(null);
 //        return RegisterDto.Response.builder()
 //                .name(request.getName())
 //                .email(request.getEmail())
-//                .registerDttm(LocalDateTime.now())
+//                .registerDatetime(LocalDateTime.now())
 //                .build();
+        } catch (CustomException e) {
+            // 예외를 로그로 기록하거나 처리
+            return CompletableFuture.failedFuture(e);
+        }
     }
 
     public String getVerificationEmail(String email){

@@ -30,11 +30,11 @@ public class QReview extends EntityPathBase<Review> {
 
     public final NumberPath<Integer> rating = createNumber("rating", Integer.class);
 
-    public final DateTimePath<java.time.LocalDateTime> registerDttm = createDateTime("registerDttm", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> registerDateTime = createDateTime("registerDateTime", java.time.LocalDateTime.class);
 
     public final NumberPath<Integer> reviewLike = createNumber("reviewLike", Integer.class);
 
-    public final DateTimePath<java.time.LocalDateTime> updateDttm = createDateTime("updateDttm", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> updateDateTime = createDateTime("updateDateTime", java.time.LocalDateTime.class);
 
     public final QUser user;
 

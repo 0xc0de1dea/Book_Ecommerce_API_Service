@@ -5,7 +5,7 @@ spring:
     password: star816438*
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         cache:
@@ -28,3 +28,7 @@ spring:
           timeout : 3600
           starttls:
             enable: true
+
+  jwt:
+    secret:
+      weiovnzosdhflsdhglszvnlsdghsldkjfklsdnvzljflsdhglsdfjsdlnvlsdh

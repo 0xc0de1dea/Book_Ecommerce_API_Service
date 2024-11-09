@@ -1,9 +1,10 @@
 package com.example.book_ecommerce_api_service.controller;
 
-import com.example.book_ecommerce_api_service.domain.Book;
 import com.example.book_ecommerce_api_service.dto.BookDto;
+import com.example.book_ecommerce_api_service.dto.CategoriesBySortDto;
 import com.example.book_ecommerce_api_service.service.BookService;
-import com.example.book_ecommerce_api_service.type.SortType;
+import com.example.book_ecommerce_api_service.type.BookSortType;
+import com.example.book_ecommerce_api_service.type.ReviewSortType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,28 +16,27 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
     private final BookService bookService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createBook(
             @Valid @RequestBody BookDto bookDto
     ){
         return ResponseEntity.ok(bookService.createBook(bookDto));
     }
 
-    @GetMapping("/search/name")
+    @GetMapping("/name")
     public ResponseEntity<?> searchBookByName(
             @RequestParam(name = "name") String name,
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestBody SortType sortType
+            @RequestParam(name = "sortType") BookSortType sortType
     ){
         return ResponseEntity.ok(bookService.searchBookByName(name, page, sortType));
     }
 
-    @GetMapping("/search/category")
+    @PostMapping("/category")
     public ResponseEntity<?> searchBookByCategory(
-            @RequestBody String[] categories,
-            @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestBody SortType sortType
+            @RequestBody CategoriesBySortDto categoriesBySortDto,
+            @RequestParam(name = "page", defaultValue = "0") int page
     ){
-        return ResponseEntity.ok(bookService.searchBookByCategory(categories, page, sortType));
+        return ResponseEntity.ok(bookService.searchBookByCategory(categoriesBySortDto.getCategories(), page, categoriesBySortDto.getSortType()));
     }
 }

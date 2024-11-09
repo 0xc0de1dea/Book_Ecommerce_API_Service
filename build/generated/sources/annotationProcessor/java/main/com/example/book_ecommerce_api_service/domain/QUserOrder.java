@@ -26,7 +26,7 @@ public class QUserOrder extends EntityPathBase<UserOrder> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final DateTimePath<java.time.LocalDateTime> orderDttm = createDateTime("orderDttm", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> orderDateTime = createDateTime("orderDateTime", java.time.LocalDateTime.class);
 
     public final EnumPath<com.example.book_ecommerce_api_service.type.OrderStatus> status = createEnum("status", com.example.book_ecommerce_api_service.type.OrderStatus.class);
 

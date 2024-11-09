@@ -1,10 +1,14 @@
 package com.example.book_ecommerce_api_service.controller;
 
 import com.example.book_ecommerce_api_service.dto.RegisterDto;
+import com.example.book_ecommerce_api_service.exception.CustomException;
 import com.example.book_ecommerce_api_service.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequiredArgsConstructor
@@ -12,17 +16,18 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/register")
+    @PostMapping
     public ResponseEntity<?> registerUser(@RequestBody RegisterDto.Request request) {
         try {
-            userService.registerUser(request);
-            return ResponseEntity.ok("이메일 전송 성공");
-        } catch (Exception e){
-            return ResponseEntity.badRequest().body("이메일 전송 실패");
+            CompletableFuture<Void> result = userService.registerUser(request);
+            result.join();  // 비동기 메서드를 기다림
+            return ResponseEntity.ok("회원가입이 완료되었습니다. 이메일 인증을 시도하세요.");
+        } catch (CustomException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: " + e.getErrorMessage());
         }
     }
 
-    @PutMapping("/verification")
+    @PutMapping
     public ResponseEntity<?> emailCheck(@RequestParam("email") String email, @RequestParam("inputUUID") String inputUUID) {
         boolean isMatch = userService.checkVerificationUUID(email, inputUUID);
 

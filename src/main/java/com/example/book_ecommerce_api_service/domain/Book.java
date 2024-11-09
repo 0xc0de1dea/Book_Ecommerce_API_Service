@@ -1,5 +1,6 @@
 package com.example.book_ecommerce_api_service.domain;
 
+import com.example.book_ecommerce_api_service.converter.StringListConverter;
 import com.example.book_ecommerce_api_service.type.BookStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -9,6 +10,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -30,16 +32,22 @@ public class Book {
     @Enumerated(EnumType.STRING)
     private BookStatus status;
 
-    @CreatedDate
-    private LocalDateTime registerDttm;
-
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "book")
+    @Convert(converter = StringListConverter.class)
     private List<BookCategory> bookCategories;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "book")
+    @Convert(converter = StringListConverter.class)
     private List<Review> reviews;
 
+    @CreatedDate
+    private LocalDateTime registerDateTime;
+
     public void putBookCategory(BookCategory bookCategory){
+        if (this.bookCategories == null) {
+            this.bookCategories = new ArrayList<>();
+        }
+
         this.bookCategories.add(bookCategory);
     }
 }

@@ -34,8 +34,8 @@ public class Review {
     private Integer reviewLike;
 
     @CreatedDate
-    private LocalDateTime registerDttm;
+    private LocalDateTime registerDateTime;
 
     @LastModifiedDate
-    private LocalDateTime updateDttm;
+    private LocalDateTime updateDateTime;
 }

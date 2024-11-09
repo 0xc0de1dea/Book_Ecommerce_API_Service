@@ -32,5 +32,5 @@ public class UserOrder {
     private OrderStatus status;
 
     @CreatedDate
-    private LocalDateTime orderDttm;
+    private LocalDateTime orderDateTime;
 }
