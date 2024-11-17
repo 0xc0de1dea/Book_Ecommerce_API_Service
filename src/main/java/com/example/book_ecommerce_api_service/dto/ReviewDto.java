@@ -1,10 +1,7 @@
 package com.example.book_ecommerce_api_service.dto;
 
 import com.example.book_ecommerce_api_service.domain.Review;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,38 +19,41 @@ public class ReviewDto {
     public static class Request {
         @Min(value = 1)
         @Max(value = 5)
+        @NotNull
         private Integer rating;
 
         @NotEmpty
         private String comment;
 
-        @NotBlank
-        private Long book_id;
+        @NotNull
+        private Long bookId;
     }
 
     @Getter
     @Builder
     public static class Response {
-        private String userName;
+        private String userEmail;
         private String bookName;
         private Integer rating;
         private String comment;
         private Integer like;
 
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-        private LocalDateTime registerDttm;
+        private LocalDateTime registerDateTime;
 
         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-        private LocalDateTime updateDttm;
+        private LocalDateTime updateDateTime;
     }
 
     public static Page<ReviewDto.Response> fromPageReviewEntity(Page<Review> pageReview) {
-        return pageReview.map(m -> ReviewDto.Response.builder()
-                .userName(m.getUser().getName())
+        return pageReview.map(m -> Response.builder()
+                .userEmail(m.getUser().getEmail())
                 .bookName(m.getBook().getName())
                 .rating(m.getRating())
                 .comment(m.getComment())
                 .like(m.getReviewLike())
+                .registerDateTime(m.getRegisterDateTime())
+                .updateDateTime(m.getUpdateDateTime())
                 .build());
     }
 }

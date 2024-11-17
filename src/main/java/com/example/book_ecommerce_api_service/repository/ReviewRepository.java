@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ReviewRepository extends JpaRepository<Review, Integer> {
-    Page<Review> findByBook(Book book, Pageable pageable);
+public interface ReviewRepository extends JpaRepository<Review, Long> {
+    Page<Review> findByBook_Name(String bookName, Pageable pageable);
 }

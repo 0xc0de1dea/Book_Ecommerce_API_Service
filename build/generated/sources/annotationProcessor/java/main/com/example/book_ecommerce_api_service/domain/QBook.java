@@ -32,9 +32,11 @@ public class QBook extends EntityPathBase<Book> {
 
     public final NumberPath<Integer> price = createNumber("price", Integer.class);
 
-    public final DateTimePath<java.time.LocalDateTime> registerDttm = createDateTime("registerDttm", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> registerDateTime = createDateTime("registerDateTime", java.time.LocalDateTime.class);
 
     public final ListPath<Review, QReview> reviews = this.<Review, QReview>createList("reviews", Review.class, QReview.class, PathInits.DIRECT2);
+
+    public final StringPath seller = createString("seller");
 
     public final EnumPath<com.example.book_ecommerce_api_service.type.BookStatus> status = createEnum("status", com.example.book_ecommerce_api_service.type.BookStatus.class);
 

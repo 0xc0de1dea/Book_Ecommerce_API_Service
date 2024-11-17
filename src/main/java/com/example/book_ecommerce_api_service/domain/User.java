@@ -13,12 +13,7 @@ import java.util.List;
 @Builder
 @Entity
 @Table(
-        name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        columnNames = { "email", "phone" }
-                )
-        }
+        name = "users"
 )
 public class User {
     @Id

@@ -19,9 +19,6 @@ public class Cart {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "book_id")
-    private Book book;
-
-    private Integer totalPrice;
-    private Integer totalAmount;
+    @JoinColumn(name = "book_item_id")
+    private BookItem bookItem;
 }

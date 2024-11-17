@@ -1,5 +1,6 @@
 package com.example.book_ecommerce_api_service.config;
 
+import com.example.book_ecommerce_api_service.exception.MyAsyncUncaughtExceptionHandler;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +28,7 @@ public class AsyncConfig implements AsyncConfigurer {
 
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return AsyncConfigurer.super.getAsyncUncaughtExceptionHandler();
+        return new MyAsyncUncaughtExceptionHandler();
+//        return AsyncConfigurer.super.getAsyncUncaughtExceptionHandler();
     }
 }

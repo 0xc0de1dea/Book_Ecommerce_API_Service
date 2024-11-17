@@ -22,11 +22,13 @@ public class QUserOrder extends EntityPathBase<UserOrder> {
 
     public static final QUserOrder userOrder = new QUserOrder("userOrder");
 
-    public final QBook book;
+    public final QBookItem bookItem;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
-    public final DateTimePath<java.time.LocalDateTime> orderDttm = createDateTime("orderDttm", java.time.LocalDateTime.class);
+    public final DateTimePath<java.time.LocalDateTime> orderDateTime = createDateTime("orderDateTime", java.time.LocalDateTime.class);
+
+    public final NumberPath<Long> orderId = createNumber("orderId", Long.class);
 
     public final EnumPath<com.example.book_ecommerce_api_service.type.OrderStatus> status = createEnum("status", com.example.book_ecommerce_api_service.type.OrderStatus.class);
 
@@ -50,7 +52,7 @@ public class QUserOrder extends EntityPathBase<UserOrder> {
 
     public QUserOrder(Class<? extends UserOrder> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.book = inits.isInitialized("book") ? new QBook(forProperty("book")) : null;
+        this.bookItem = inits.isInitialized("bookItem") ? new QBookItem(forProperty("bookItem"), inits.get("bookItem")) : null;
         this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
     }
 
