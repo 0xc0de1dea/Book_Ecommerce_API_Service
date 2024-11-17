@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -26,10 +27,10 @@ public class UserServiceImpl implements UserService {
     private final MailComponents mailComponents;
     private final Map<String, String> emailVerificationMap = new HashMap<>();
 
-    @Async
+    //@Async
     @Transactional
-    public CompletableFuture<Void> registerUser(RegisterDto.Request request){
-        try {
+    public RegisterDto.Response registerUser(RegisterDto.Request request){
+//        try {
             boolean isExists = userRepository.existsByEmail(request.getEmail());
 
             if (isExists){
@@ -70,17 +71,17 @@ public class UserServiceImpl implements UserService {
             mailComponents.sendMail(email, subject, text);
 
             emailVerificationMap.put(request.getEmail(), uuid);
-
-            return CompletableFuture.completedFuture(null);
-//        return RegisterDto.Response.builder()
-//                .name(request.getName())
-//                .email(request.getEmail())
-//                .registerDatetime(LocalDateTime.now())
-//                .build();
-        } catch (CustomException e) {
-            // 예외를 로그로 기록하거나 처리
-            return CompletableFuture.failedFuture(e);
-        }
+//
+//            return CompletableFuture.completedFuture(null);
+        return RegisterDto.Response.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .registerDateTime(LocalDateTime.now())
+                .build();
+//        } catch (CustomException e) {
+//            // 예외를 로그로 기록하거나 처리
+//            return CompletableFuture.failedFuture(e);
+//        }
     }
 
     public String getVerificationEmail(String email){

@@ -13,52 +13,63 @@ import org.springframework.data.domain.Page;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class BookDto {
-    @NotBlank
-    private String name;
+    @Getter
+    @Builder
+    public static class Request {
+        @NotBlank
+        private String name;
 
-    @NotNull
-    private Integer price;
+        @NotNull
+        private Integer price;
 
-    @NotBlank
-    private String description;
+        @NotBlank
+        private String description;
 
-    @NotNull
-    private Integer amount;
+        @NotNull
+        private Integer amount;
 
-    @NotNull
-    private BookStatus status;
+        @NotNull
+        private BookStatus status;
 
-    @NotNull
-    private List<String> categories;
+        @NotNull
+        private List<String> categories;
 
-    private LocalDateTime registerDateTime;
-
-    public Book toEntity(){
-        return Book.builder()
-                .name(this.name)
-                .price(this.price)
-                .description(this.description)
-                .amount(this.amount)
-                .status(this.status)
-                .registerDateTime(this.registerDateTime)
-                .build();
+        public Book toEntity(){
+            return Book.builder()
+                    .name(this.name)
+                    .price(this.price)
+                    .description(this.description)
+                    .amount(this.amount)
+                    .status(this.status)
+                    .build();
+        }
     }
 
-    public static BookDto fromEntity(Book book){
-        return BookDto.builder()
-                .name(book.getName())
-                .price(book.getPrice())
-                .description(book.getDescription())
-                .amount(book.getAmount())
-                .status(book.getStatus())
-                .registerDateTime(book.getRegisterDateTime())
-                .build();
+    @Setter
+    @Getter
+    @Builder
+    public static class Response {
+        private String name;
+        private Integer price;
+        private String description;
+        private Integer amount;
+        private String seller;
+        private BookStatus status;
+        private List<String> categories;
+        private LocalDateTime registerDateTime;
+
+        public static BookDto.Response fromEntity(Book book){
+            return Response.builder()
+                    .name(book.getName())
+                    .price(book.getPrice())
+                    .description(book.getDescription())
+                    .amount(book.getAmount())
+                    .seller(book.getSeller())
+                    .status(book.getStatus())
+                    .registerDateTime(book.getRegisterDateTime())
+                    .build();
+        }
     }
 
 //    public static Page<BookDto> fromPageBookEntity(Page<BookCategory> pageBook) {

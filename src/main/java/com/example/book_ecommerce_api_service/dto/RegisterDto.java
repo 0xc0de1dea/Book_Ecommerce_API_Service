@@ -26,21 +26,18 @@ public class RegisterDto {
         private String email;
 
         @NotBlank
-        @Min(8)
-        @Max(100)
+        @Size(min = 8, max = 100)
         private String password;
 
         @NotBlank
-        @Min(8)
-        @Max(100)
+        @Size(min = 8, max = 100)
         private String confirmPassword;
 
         @NotBlank
         private String address;
 
         @NotBlank
-        @Min(11)
-        @Max(12)
+        @Size(max = 12)
         private String phone;
 
         @NotNull

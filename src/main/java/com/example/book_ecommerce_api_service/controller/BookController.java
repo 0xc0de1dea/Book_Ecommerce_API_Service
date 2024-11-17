@@ -4,6 +4,7 @@ import com.example.book_ecommerce_api_service.dto.BookDto;
 import com.example.book_ecommerce_api_service.dto.CategoriesBySortDto;
 import com.example.book_ecommerce_api_service.service.BookService;
 import com.example.book_ecommerce_api_service.type.BookSortType;
+import com.example.book_ecommerce_api_service.type.BookStatus;
 import com.example.book_ecommerce_api_service.type.ReviewSortType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +19,26 @@ public class BookController {
 
     @PostMapping
     public ResponseEntity<?> createBook(
-            @Valid @RequestBody BookDto bookDto
+            @RequestHeader("Authorization") String token,
+            @Valid @RequestBody BookDto.Request request
     ){
-        return ResponseEntity.ok(bookService.createBook(bookDto));
+        token = token.replace("Bearer ", "").trim();
+
+        return ResponseEntity.ok(bookService.createBook(request, token));
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateBook(
+            @RequestHeader("Authorization") String token,
+            @RequestParam(name = "bookId") Long bookId,
+            @RequestParam(name = "amount") Integer amount,
+            @RequestParam(name = "status") BookStatus status
+            ){
+        token = token.replace("Bearer ", "").trim();
+
+        bookService.updateBook(bookId, amount, status, token);
+
+        return ResponseEntity.ok("등록되어 있는 책을 업데이트 하였습니다.");
     }
 
     @GetMapping("/name")
@@ -34,7 +52,7 @@ public class BookController {
 
     @PostMapping("/category")
     public ResponseEntity<?> searchBookByCategory(
-            @RequestBody CategoriesBySortDto categoriesBySortDto,
+            @Valid @RequestBody CategoriesBySortDto categoriesBySortDto,
             @RequestParam(name = "page", defaultValue = "0") int page
     ){
         return ResponseEntity.ok(bookService.searchBookByCategory(categoriesBySortDto.getCategories(), page, categoriesBySortDto.getSortType()));

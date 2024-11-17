@@ -5,7 +5,7 @@ import com.example.book_ecommerce_api_service.dto.RegisterDto;
 import java.util.concurrent.CompletableFuture;
 
 public interface UserService {
-    CompletableFuture<Void> registerUser(RegisterDto.Request registerDto);
+    RegisterDto.Response registerUser(RegisterDto.Request registerDto);
 
     String getVerificationEmail(String email);
 

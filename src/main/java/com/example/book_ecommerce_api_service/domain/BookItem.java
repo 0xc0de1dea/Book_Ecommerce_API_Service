@@ -15,6 +15,10 @@ public class BookItem {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
 

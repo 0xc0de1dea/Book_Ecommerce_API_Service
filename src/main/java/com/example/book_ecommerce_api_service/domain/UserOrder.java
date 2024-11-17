@@ -20,13 +20,15 @@ public class UserOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long orderId;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
+    @JoinColumn(name = "book_item_id", nullable = false)
+    private BookItem bookItem;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;

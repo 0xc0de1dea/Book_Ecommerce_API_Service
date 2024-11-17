@@ -26,13 +26,13 @@ public class ReviewDto {
         private String comment;
 
         @NotNull
-        private Long book_id;
+        private Long bookId;
     }
 
     @Getter
     @Builder
     public static class Response {
-        private String userName;
+        private String userEmail;
         private String bookName;
         private Integer rating;
         private String comment;
@@ -46,12 +46,14 @@ public class ReviewDto {
     }
 
     public static Page<ReviewDto.Response> fromPageReviewEntity(Page<Review> pageReview) {
-        return pageReview.map(m -> ReviewDto.Response.builder()
-                .userName(m.getUser().getName())
+        return pageReview.map(m -> Response.builder()
+                .userEmail(m.getUser().getEmail())
                 .bookName(m.getBook().getName())
                 .rating(m.getRating())
                 .comment(m.getComment())
                 .like(m.getReviewLike())
+                .registerDateTime(m.getRegisterDateTime())
+                .updateDateTime(m.getUpdateDateTime())
                 .build());
     }
 }

@@ -28,6 +28,8 @@ public class QBookItem extends EntityPathBase<BookItem> {
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
 
+    public final QUser user;
+
     public QBookItem(String variable) {
         this(BookItem.class, forVariable(variable), INITS);
     }
@@ -47,6 +49,7 @@ public class QBookItem extends EntityPathBase<BookItem> {
     public QBookItem(Class<? extends BookItem> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.book = inits.isInitialized("book") ? new QBook(forProperty("book")) : null;
+        this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
     }
 
 }

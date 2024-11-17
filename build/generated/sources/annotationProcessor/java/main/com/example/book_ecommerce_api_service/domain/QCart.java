@@ -22,13 +22,9 @@ public class QCart extends EntityPathBase<Cart> {
 
     public static final QCart cart = new QCart("cart");
 
-    public final QBook book;
+    public final QBookItem bookItem;
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
-
-    public final NumberPath<Integer> totalAmount = createNumber("totalAmount", Integer.class);
-
-    public final NumberPath<Integer> totalPrice = createNumber("totalPrice", Integer.class);
 
     public final QUser user;
 
@@ -50,7 +46,7 @@ public class QCart extends EntityPathBase<Cart> {
 
     public QCart(Class<? extends Cart> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.book = inits.isInitialized("book") ? new QBook(forProperty("book")) : null;
+        this.bookItem = inits.isInitialized("bookItem") ? new QBookItem(forProperty("bookItem"), inits.get("bookItem")) : null;
         this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
     }
 

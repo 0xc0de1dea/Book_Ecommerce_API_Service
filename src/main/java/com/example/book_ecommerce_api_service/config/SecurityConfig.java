@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -78,6 +79,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/login", "/user", "/user/**", "/book/**").permitAll()
                         .requestMatchers("/book").hasAuthority("ROLE_SELLER")
+                        .requestMatchers("/cart", "/cart/**").hasAuthority("ROLE_CUSTOMER")
+                        .requestMatchers(HttpMethod.POST,"/review").hasAuthority("ROLE_CUSTOMER")
+                        .requestMatchers(HttpMethod.PUT,"/review/**").hasAuthority("ROLE_CUSTOMER")
+                        .requestMatchers(HttpMethod.GET, "/review").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/review/**").permitAll()
                         .anyRequest().authenticated());
 
         http

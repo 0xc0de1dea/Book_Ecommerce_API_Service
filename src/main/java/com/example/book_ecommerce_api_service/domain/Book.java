@@ -28,6 +28,7 @@ public class Book {
     private Integer price;
     private String description;
     private Integer amount;
+    private String seller;
 
     @Enumerated(EnumType.STRING)
     private BookStatus status;

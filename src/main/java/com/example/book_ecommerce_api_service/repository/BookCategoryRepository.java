@@ -16,6 +16,9 @@ public interface BookCategoryRepository extends JpaRepository<BookCategory, Long
     @Query("SELECT bc FROM BookCategory bc WHERE bc.book.name LIKE %:bookName%")
     List<BookCategory> findByBookNameLike(@Param("bookName") String bookName);
 
+    @Query("SELECT bc FROM BookCategory bc WHERE bc.book.name = :bookName")
+    List<BookCategory> findByBookName(@Param("bookName") String bookName);
+
     @Query("SELECT bc FROM BookCategory bc WHERE bc.category.name = :categoryName")
-    List<BookCategory> findByBookCategory(@Param("categoryName") String categoryName);
+    List<BookCategory> findByCategoryName(@Param("categoryName") String categoryName);
 }
